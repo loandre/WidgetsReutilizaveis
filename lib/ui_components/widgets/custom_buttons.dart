@@ -1,46 +1,46 @@
 import 'package:flutter/material.dart';
 
 enum ButtonStyleType { filled, outlined, transparent }
-enum ButtonColor { primary, secondary }
-enum ButtonPurpose { add, none, add_alarm_rounded, add_photo_alternate, image }
+
+enum ButtonVariant { primary, secondary }
+
+enum ButtonAssets { add, none, add_photo_alternate, image }
 
 class CustomButton extends StatelessWidget {
   final ButtonStyleType styleType;
-  final ButtonColor buttonColor;
-  final ButtonPurpose purpose;
+  final ButtonVariant buttonColor;
+  final ButtonAssets asset;
   final VoidCallback? onPressed;
   final double? borderRadius;
   final double? buttonSize;
   final String? imagePath;
   final String buttonText;
 
-  CustomButton({
+  const CustomButton({
     Key? key,
     required this.styleType,
     required this.buttonText,
-    this.buttonColor = ButtonColor.primary,
-    this.purpose = ButtonPurpose.none,
+    this.buttonColor = ButtonVariant.primary,
+    this.asset = ButtonAssets.none,
     this.onPressed,
     this.borderRadius,
     this.buttonSize,
     this.imagePath,
   }) : super(key: key);
 
-  Widget _iconForPurpose(ButtonPurpose purpose) {
-    switch (purpose) {
-      case ButtonPurpose.add:
+  Widget _iconForAssets(ButtonAssets asset) {
+    switch (asset) {
+      case ButtonAssets.add:
         return Icon(Icons.add, color: _iconColor());
-      case ButtonPurpose.add_alarm_rounded:
-        return Icon(Icons.add_alarm_rounded, color: _iconColor());
-      case ButtonPurpose.add_photo_alternate:
+      case ButtonAssets.add_photo_alternate:
         return Icon(Icons.add_photo_alternate, color: _iconColor());
-      case ButtonPurpose.image:
+      case ButtonAssets.image:
         if (imagePath != null) {
           return Image.asset(imagePath!, width: 24, height: 24);
         } else {
           return Icon(Icons.clear);
         }
-      case ButtonPurpose.none:
+      case ButtonAssets.none:
       default:
         return Icon(Icons.clear);
     }
@@ -48,13 +48,13 @@ class CustomButton extends StatelessWidget {
 
   Color _iconColor() {
     if (styleType == ButtonStyleType.filled) {
-      if (buttonColor == ButtonColor.primary) {
+      if (buttonColor == ButtonVariant.primary) {
         return Colors.white;
       } else {
         return Colors.white70;
       }
     }
-    return buttonColor == ButtonColor.primary ? Colors.blue : Colors.grey;
+    return buttonColor == ButtonVariant.primary ? Color(0xFF0e76ad) : Color(0xFF909ca3);
   }
 
   @override
@@ -63,12 +63,14 @@ class CustomButton extends StatelessWidget {
     Color textColor;
     BorderSide borderSide;
 
-    Color baseColor = buttonColor == ButtonColor.primary ? Colors.blue : Colors.grey;
+    Color baseColor =
+        buttonColor == ButtonVariant.primary ? Color(0xFF0e76ad) : Color(0xFF909ca3);
 
     switch (styleType) {
       case ButtonStyleType.filled:
         primaryColor = baseColor;
-        textColor = buttonColor == ButtonColor.primary ? Colors.white : Colors.white70;
+        textColor =
+            buttonColor == ButtonVariant.primary ? Colors.white : Colors.white70;
         borderSide = BorderSide(color: baseColor, width: 2.0);
         break;
       case ButtonStyleType.outlined:
@@ -100,10 +102,10 @@ class CustomButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (purpose != ButtonPurpose.none)
+          if (asset != ButtonAssets.none)
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: _iconForPurpose(purpose),
+              child: _iconForAssets(asset),
             ),
           Text(buttonText, style: TextStyle(color: textColor)),
         ],

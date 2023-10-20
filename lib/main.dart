@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ui_components/ui_components/widgets/custom_buttons.dart';
 import 'package:ui_components/ui_components/widgets/textfield.dart';
+import 'package:ui_components/ui_components/widgets/card_information.dart';
 
 void main() => runApp(const MyApp());
 
@@ -40,7 +41,6 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: SingleChildScrollView(
-        // Use isso para evitar overflow quando o teclado aparecer
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               _space(),
-               Padding(
+              Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: CustomTextField(
                   labelText: "Label",
@@ -76,7 +76,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               _space(),
-
+              CreditCardWidget(), // Adicionando o widget CardInformation
+              _space(),
               Row(
                 children: [
                   // Botões primários
@@ -86,10 +87,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: _buildPrimaryButtons(),
                     ),
                   ),
-
                   // Espaço entre os botões primários e secundários
-                  SizedBox(width: 20),
-
+                  const SizedBox(width: 20),
                   // Botões secundários
                   Expanded(
                     child: Column(
@@ -108,38 +107,38 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<Widget> _buildPrimaryButtons() {
     return [
-      CustomButton(
+      const CustomButton(
         styleType: ButtonStyleType.filled,
-        buttonColor: ButtonColor.primary,
-        purpose: ButtonPurpose.image,
+        buttonColor: ButtonVariant.primary,
+        asset: ButtonAssets.image,
         imagePath: 'lib/assets/eth.png',
         buttonText: "Button",
         borderRadius: 8.0,
         buttonSize: 25.0,
       ),
       _space(),
-      CustomButton(
+      const CustomButton(
         styleType: ButtonStyleType.filled,
-        buttonColor: ButtonColor.primary,
-        purpose: ButtonPurpose.add_photo_alternate,
+        buttonColor: ButtonVariant.primary,
+        asset: ButtonAssets.add_photo_alternate,
         buttonText: "Button",
         borderRadius: 8.0,
         buttonSize: 25.0,
       ),
       _space(),
-      CustomButton(
+      const CustomButton(
         styleType: ButtonStyleType.outlined,
-        buttonColor: ButtonColor.primary,
-        purpose: ButtonPurpose.add,
+        buttonColor: ButtonVariant.primary,
+        asset: ButtonAssets.add,
         buttonText: "Button",
         borderRadius: 10.0,
         buttonSize: 30.0,
       ),
       _space(),
-      CustomButton(
+      const CustomButton(
         styleType: ButtonStyleType.transparent,
-        buttonColor: ButtonColor.primary,
-        purpose: ButtonPurpose.none,
+        buttonColor: ButtonVariant.primary,
+        asset: ButtonAssets.none,
         buttonText: "Button",
         borderRadius: 0.0,
         buttonSize: 30.0,
@@ -150,38 +149,38 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<Widget> _buildSecondaryButtons() {
     return [
-      CustomButton(
+      const CustomButton(
         styleType: ButtonStyleType.filled,
-        buttonColor: ButtonColor.secondary,
-        purpose: ButtonPurpose.image,
+        buttonColor: ButtonVariant.secondary,
+        asset: ButtonAssets.image,
         imagePath: 'lib/assets/eth.png',
         buttonText: "Que Loucura!",
         borderRadius: 8.0,
         buttonSize: 25.0,
       ),
       _space(),
-      CustomButton(
+      const CustomButton(
         styleType: ButtonStyleType.filled,
-        buttonColor: ButtonColor.secondary,
-        purpose: ButtonPurpose.add,
+        buttonColor: ButtonVariant.secondary,
+        asset: ButtonAssets.add_photo_alternate,
         buttonText: "Que Loucura!",
         borderRadius: 8.0,
         buttonSize: 25.0,
       ),
       _space(),
-      CustomButton(
+      const CustomButton(
         styleType: ButtonStyleType.outlined,
-        buttonColor: ButtonColor.secondary,
-        purpose: ButtonPurpose.add_alarm_rounded,
+        buttonColor: ButtonVariant.secondary,
+        asset: ButtonAssets.add,
         buttonText: "Que Loucura!",
         borderRadius: 10.0,
         buttonSize: 30.0,
       ),
       _space(),
-      CustomButton(
+      const CustomButton(
         styleType: ButtonStyleType.transparent,
-        buttonColor: ButtonColor.secondary,
-        purpose: ButtonPurpose.none,
+        buttonColor: ButtonVariant.secondary,
+        asset: ButtonAssets.none,
         buttonText: "Que Loucura!",
         borderRadius: 0.0,
         buttonSize: 30.0,
