@@ -45,7 +45,6 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // CustomTextField no início da tela
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: CustomTextField(
@@ -76,20 +75,31 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               _space(),
-              CreditCardWidget(), // Adicionando o widget CardInformation
+
+              // Adicionando o widget CardInformation
+              CreditCardWidget(
+                title: 'BEST 0% APR CREDIT CARD',
+                cardName: 'Wells Fargo Active Cash Card',
+                aprRates: '20.24%, 25.24%, or 29.99% variable APR',
+                rateAndFee: 5.0,
+                annualFee: '\$0',
+                creditScore: 'Excellent, Good (700 - 749)',
+                imageUrl:
+                    'lib/assets/creditcard.png', // Substitua por sua URL real aqui
+                imageSourceType:
+                    ImageSourceType.asset, // Indicando que é uma imagem de URL
+              ),
+
               _space(),
               Row(
                 children: [
-                  // Botões primários
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: _buildPrimaryButtons(),
                     ),
                   ),
-                  // Espaço entre os botões primários e secundários
                   const SizedBox(width: 20),
-                  // Botões secundários
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
