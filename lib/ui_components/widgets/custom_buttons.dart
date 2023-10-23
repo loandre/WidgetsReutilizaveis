@@ -38,11 +38,11 @@ class CustomButton extends StatelessWidget {
         if (imagePath != null) {
           return Image.asset(imagePath!, width: 24, height: 24);
         } else {
-          return Icon(Icons.clear);
+          return const Icon(Icons.clear);
         }
       case ButtonAssets.none:
       default:
-        return Icon(Icons.clear);
+        return const Icon(Icons.clear);
     }
   }
 
@@ -54,7 +54,7 @@ class CustomButton extends StatelessWidget {
         return Colors.white70;
       }
     }
-    return buttonColor == ButtonVariant.primary ? Color(0xFF0e76ad) : Color(0xFF909ca3);
+    return buttonColor == ButtonVariant.primary ? const Color(0xFF0e76ad) : const Color(0xFF909ca3);
   }
 
   @override
@@ -64,7 +64,7 @@ class CustomButton extends StatelessWidget {
     BorderSide borderSide;
 
     Color baseColor =
-        buttonColor == ButtonVariant.primary ? Color(0xFF0e76ad) : Color(0xFF909ca3);
+        buttonColor == ButtonVariant.primary ? const Color(0xFF0e76ad) : const Color(0xFF909ca3);
 
     switch (styleType) {
       case ButtonStyleType.filled:

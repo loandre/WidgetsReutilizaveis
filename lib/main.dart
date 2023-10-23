@@ -77,11 +77,11 @@ class _MyHomePageState extends State<MyHomePage> {
               _space(),
 
               // Adicionando o widget CardInformation
-              CreditCardWidget(
+              const CreditCardWidget(
                 title: 'BEST 0% APR CREDIT CARD',
                 cardName: 'Wells Fargo Active Cash Card',
                 aprRates: '20.24%, 25.24%, or 29.99% variable APR',
-                rateAndFee: 5.0,
+                rateAndFee: 4.5,
                 annualFee: '\$0',
                 creditScore: 'Excellent, Good (700 - 749)',
                 imageUrl:

@@ -1,18 +1,74 @@
 import 'package:flutter/material.dart';
-import 'package:ui_components/ui_components/widgets/custom_buttons.dart';
+import 'custom_buttons.dart';
 
 enum ImageSourceType {
   asset,
   network,
 }
 
+class RatingStar extends StatelessWidget {
+  final double rating;
+
+  const RatingStar({super.key, required this.rating});
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> stars = [];
+
+    int fullStars = rating.floor();
+    for (int i = 0; i < fullStars; i++) {
+      stars.add(const Icon(
+        Icons.star,
+        color: Color(0xFFFFC109),
+        size: 12.5,
+      ));
+    }
+
+    double partialStar = rating - fullStars;
+    if (partialStar > 0) {
+      stars.add(Stack(
+        children: [
+          const Icon(
+            Icons.star,
+            color: Colors.grey,
+            size: 12.5,
+          ),
+          ClipRect(
+            child: Align(
+              alignment: Alignment.centerLeft,
+              widthFactor: partialStar,
+              child: const Icon(
+                Icons.star,
+                color: Color(0xFFFFC109),
+                size: 12.5,
+              ),
+            ),
+          ),
+        ],
+      ));
+    }
+
+    while (stars.length < 5) {
+      stars.add(const Icon(
+        Icons.star,
+        color: Colors.grey,
+        size: 12.5,
+      ));
+    }
+
+    return Row(children: stars);
+  }
+}
+
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text('Widget Reutilizável')),
-        body: Center(
+        appBar: AppBar(title: const Text('Widget Reutilizável')),
+        body: const Center(
           child: CreditCardWidget(
             title: 'BEST 0% APR CREDIT CARD',
             cardName: 'Wells Fargo Active Cash Card',
@@ -29,6 +85,72 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class RatesAndFeeSection extends StatelessWidget {
+  final double rateAndFee;
+  final String annualFee;
+
+  const RatesAndFeeSection({
+    Key? key,
+    required this.rateAndFee,
+    required this.annualFee,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Align(
+          alignment: Alignment.center,
+          child: Text('Rates & Fee',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+        ),
+        const SizedBox(height: 2.0),
+        Container(
+          padding: const EdgeInsets.all(12.0),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF1F4F9),
+            borderRadius: BorderRadius.circular(6.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.4),
+                spreadRadius: 2,
+                blurRadius: 10,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(4.0),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE3E6F5),
+                      borderRadius: BorderRadius.circular(6.0),
+                    ),
+                    child: Text(rateAndFee.toString(),
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w500)),
+                  ),
+                  RatingStar(
+                      rating: rateAndFee),
+                ],
+              ),
+              Text(annualFee,
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold)),
+              const Text('Annual Fee', style: TextStyle(fontSize: 14)),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class CreditCardWidget extends StatelessWidget {
   final String title;
   final String cardName;
@@ -39,7 +161,8 @@ class CreditCardWidget extends StatelessWidget {
   final String imageUrl;
   final ImageSourceType imageSourceType;
 
-  CreditCardWidget({
+  const CreditCardWidget({
+    Key? key,
     required this.title,
     required this.cardName,
     required this.aprRates,
@@ -47,8 +170,8 @@ class CreditCardWidget extends StatelessWidget {
     required this.annualFee,
     required this.creditScore,
     required this.imageUrl,
-    this.imageSourceType = ImageSourceType.asset, // Valor padrão é 'asset'
-  });
+    this.imageSourceType = ImageSourceType.asset,
+  }) : super(key: key);
 
   Widget _buildImage() {
     if (imageSourceType == ImageSourceType.asset) {
@@ -60,116 +183,108 @@ class CreditCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(6.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                color: Color(0xFFB7E7FD),
-                borderRadius: BorderRadius.circular(6.0),
-              ),
-              child: Text(title,
-                  style: TextStyle(fontSize: 15, color: Colors.black)),
-            ),
-            SizedBox(height: 12.0),
-            Text(cardName,
-                style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.black)),
-            SizedBox(height: 12.0),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(child: _buildImage()),
-                SizedBox(width: 12.0),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Rates & Fee', style: TextStyle(fontSize: 16)),
-                      Container(
-                        padding: EdgeInsets.all(12.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(6.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(4.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(6.0),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 1,
-                                        blurRadius: 1,
-                                        offset: Offset(0, 1),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Text('$rateAndFee',
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                                Row(
-                                  children: List.generate(
-                                      rateAndFee.toInt(),
-                                      (index) => Icon(Icons.star,
-                                          color: Color(0xFFFFC109),
-                                          size: 18.0)),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 8.0),
-                            Text(annualFee, style: TextStyle(fontSize: 16)),
-                            SizedBox(height: 4.0),
-                            Text('Annual Fee', style: TextStyle(fontSize: 14)),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Card(
+        color: const Color(0xFFF5F7Fa),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(6.0),
+          side: const BorderSide(color: Color(0xFFCDD4DA), width: 1.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFB7E7FD),
+                  borderRadius: BorderRadius.circular(6.0),
                 ),
-              ],
-            ),
-            SizedBox(height: 12.0),
-            Text(aprRates, style: TextStyle(fontSize: 14)),
-            SizedBox(height: 8.0),
-            Text(creditScore,
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-            SizedBox(height: 12.0),
-            CustomButton(
-              styleType: ButtonStyleType.filled,
-              buttonColor: ButtonVariant.primary,
-              asset: ButtonAssets.none,
-              buttonText: "MORE DETAILS",
-              borderRadius: 8.0,
-              buttonSize: 25.0,
-            ),
-          ],
+                child: Text(title,
+                    style: const TextStyle(fontSize: 15, color: Colors.black)),
+              ),
+              const SizedBox(height: 9.0),
+              Text(cardName,
+                  style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.black)),
+              const SizedBox(height: 8.0),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(flex: 6, child: _buildImage()),
+                  const SizedBox(width: 10.0),
+                  Expanded(
+                    flex: 4,
+                    child: RatesAndFeeSection(
+                      rateAndFee: rateAndFee,
+                      annualFee: annualFee,
+                    ),
+                  ),
+                ],
+              ),
+              Divider(color: Colors.grey[300], thickness: 1.0),
+              IntrinsicHeight(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text("Regular APR",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF979FB2),
+                                  fontWeight: FontWeight.w400)),
+                          const SizedBox(height: 4.0),
+                          Text(aprRates,
+                              style: const TextStyle(
+                                  fontSize: 14.5,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black)),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: 1.0,
+                      height: double.infinity,
+                      color: Colors.grey[300],
+                    ),
+                    const SizedBox(width: 8.0),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text("Credit Score",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF979FB2),
+                                  fontWeight: FontWeight.w400)),
+                          const SizedBox(height: 4.0),
+                          Text(creditScore,
+                              style: const TextStyle(
+                                  fontSize: 14.5,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black)),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              const CustomButton(
+                styleType: ButtonStyleType.filled,
+                buttonColor: ButtonVariant.primary,
+                buttonText: "MORE DETAILS",
+                borderRadius: 8.0,
+                buttonSize: 25.0,
+              ),
+            ],
+          ),
         ),
       ),
     );

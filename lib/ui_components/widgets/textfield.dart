@@ -8,7 +8,7 @@ class CustomTextField extends StatefulWidget {
   final TextInputType keyboardType;
   final bool showLabel;
 
-  CustomTextField({
+  const CustomTextField({
     Key? key,
     required this.labelText,
     required this.supportingText,
@@ -38,7 +38,7 @@ class CustomTextFieldState extends State<CustomTextField> {
         TextFormField(
           controller: widget.controller,
           keyboardType: widget.keyboardType,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
             filled: true,
             fillColor: Colors.white,
