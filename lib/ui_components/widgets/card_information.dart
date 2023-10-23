@@ -9,56 +9,40 @@ enum ImageSourceType {
 class RatingStar extends StatelessWidget {
   final double rating;
 
-  const RatingStar({super.key, required this.rating});
+  RatingStar({required this.rating});
 
   @override
   Widget build(BuildContext context) {
     List<Widget> stars = [];
 
-    int fullStars = rating.floor();
-    for (int i = 0; i < fullStars; i++) {
-      stars.add(const Icon(
-        Icons.star,
-        color: Color(0xFFFFC109),
-        size: 12.5,
-      ));
-    }
-
-    double partialStar = rating - fullStars;
-    if (partialStar > 0) {
-      stars.add(Stack(
-        children: [
-          const Icon(
-            Icons.star,
-            color: Colors.grey,
-            size: 12.5,
+    for (int i = 1; i <= 5; i++) {
+      if (rating > i) {
+        stars.add(Icon(Icons.star, color: Color(0xFFFFC109), size: 12.5));
+      } else if (rating > i - 1) {
+        double filledWidth = 12.5 * (rating - (i - 1));
+        stars.add(
+          Stack(
+            alignment: Alignment.centerLeft,
+            children: [
+              Icon(Icons.star, color: Colors.grey, size: 12.5),
+              Container(
+                width: filledWidth,
+                decoration: BoxDecoration(),  // Adicionado esta linha.
+                child: Icon(Icons.star, color: Color(0xFFFFC109), size: 12.5),
+                clipBehavior: Clip.hardEdge,
+              )
+            ],
           ),
-          ClipRect(
-            child: Align(
-              alignment: Alignment.centerLeft,
-              widthFactor: partialStar,
-              child: const Icon(
-                Icons.star,
-                color: Color(0xFFFFC109),
-                size: 12.5,
-              ),
-            ),
-          ),
-        ],
-      ));
-    }
-
-    while (stars.length < 5) {
-      stars.add(const Icon(
-        Icons.star,
-        color: Colors.grey,
-        size: 12.5,
-      ));
+        );
+      } else {
+        stars.add(Icon(Icons.star, color: Colors.grey, size: 12.5));
+      }
     }
 
     return Row(children: stars);
   }
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -135,17 +119,8 @@ class RatesAndFeeSection extends StatelessWidget {
                         style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w500)),
                   ),
-<<<<<<< HEAD
                   RatingStar(
-                      rating: rateAndFee),
-=======
-                  Row(
-                    children: List.generate(
-                        rateAndFee.toInt(),
-                        (index) => const Icon(Icons.star_rate_rounded,
-                            color: Color(0xFFFFC109), size: 16.0)),
-                  ),
->>>>>>> 645bda1fa52326694524f40f8e1b27b6bd514297
+                      rating: rateAndFee), // Usando o widget RatingStar aqui
                 ],
               ),
               Text(annualFee,
@@ -171,11 +146,7 @@ class CreditCardWidget extends StatelessWidget {
   final ImageSourceType imageSourceType;
 
   const CreditCardWidget({
-<<<<<<< HEAD
     Key? key,
-=======
-    super.key,
->>>>>>> 645bda1fa52326694524f40f8e1b27b6bd514297
     required this.title,
     required this.cardName,
     required this.aprRates,
@@ -184,11 +155,7 @@ class CreditCardWidget extends StatelessWidget {
     required this.creditScore,
     required this.imageUrl,
     this.imageSourceType = ImageSourceType.asset,
-<<<<<<< HEAD
   }) : super(key: key);
-=======
-  });
->>>>>>> 645bda1fa52326694524f40f8e1b27b6bd514297
 
   Widget _buildImage() {
     if (imageSourceType == ImageSourceType.asset) {
@@ -200,7 +167,6 @@ class CreditCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Card(
@@ -226,7 +192,7 @@ class CreditCardWidget extends StatelessWidget {
               const SizedBox(height: 9.0),
               Text(cardName,
                   style: const TextStyle(
-                      fontSize: 28,
+                      fontSize: 30,
                       fontWeight: FontWeight.w800,
                       color: Colors.black)),
               const SizedBox(height: 8.0),
@@ -241,44 +207,6 @@ class CreditCardWidget extends StatelessWidget {
                       rateAndFee: rateAndFee,
                       annualFee: annualFee,
                     ),
-=======
-    return Card(
-      color: const Color(0xFFF5F7Fa),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(6.0),
-        side: const BorderSide(color: Color(0xFFCDD4DA), width: 1.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                color: const Color(0xFFB7E7FD),
-                borderRadius: BorderRadius.circular(6.0),
-              ),
-              child: Text(title,
-                  style: const TextStyle(fontSize: 15, color: Colors.black)),
-            ),
-            const SizedBox(height: 8.0),
-            Text(cardName,
-                style: const TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.black)),
-            const SizedBox(height: 8.0),
-            Row(
-              children: [
-                Expanded(flex: 6, child: _buildImage()),
-                const SizedBox(width: 10.0),
-                Expanded(
-                  flex: 4,
-                  child: RatesAndFeeSection(
-                    rateAndFee: rateAndFee,
-                    annualFee: annualFee,
->>>>>>> 645bda1fa52326694524f40f8e1b27b6bd514297
                   ),
                 ],
               ),
@@ -330,7 +258,6 @@ class CreditCardWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-<<<<<<< HEAD
               ),
               const SizedBox(height: 16.0),
               const CustomButton(
@@ -342,69 +269,6 @@ class CreditCardWidget extends StatelessWidget {
               ),
             ],
           ),
-=======
-              ],
-            ),
-            Divider(color: Colors.grey[300], thickness: 1.0),
-            IntrinsicHeight(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Regular APR",
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF979FB2),
-                                fontWeight: FontWeight.w400)),
-                        const SizedBox(height: 4.0),
-                        Text(aprRates,
-                            style: const TextStyle(
-                                fontSize: 14.5,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black)),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    width: 1.0,
-                    height: double.infinity,
-                    color: Colors.grey[300],
-                  ),
-                  const SizedBox(width: 8.0),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Credit Score",
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF979FB2),
-                                fontWeight: FontWeight.w400)),
-                        const SizedBox(height: 4.0),
-                        Text(creditScore,
-                            style: const TextStyle(
-                                fontSize: 14.5,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black)),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 12.0),
-            const CustomButton(
-              styleType: ButtonStyleType.filled,
-              buttonColor: ButtonVariant.primary,
-              asset: ButtonAssets.none,
-              buttonText: "MORE DETAILS",
-              borderRadius: 8.0,
-              buttonSize: 25.0,
-            ),
-          ],
->>>>>>> 645bda1fa52326694524f40f8e1b27b6bd514297
         ),
       ),
     );
